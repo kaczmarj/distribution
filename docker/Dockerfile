@@ -7,10 +7,9 @@ RUN apt-get update \
     && apt -y update \
     && apt install -y \
         python3.8-dev python3.8-distutils openjdk-8-jdk-headless \
-        libmysqlclient-dev libnotify-dev libsdl2-dev wget \
-    && rm -rf /var/lib/apt/lists/*
-# Uncomment the below if you want to make a version with the GUI
-# RUN apt install -y libwebkitgtk-3.0
+        libmysqlclient-dev libnotify-dev libsdl2-dev libwebkitgtk-3.0 locales wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen en_US en_US.UTF-8
 
 # Set up environment
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -31,7 +30,7 @@ ARG version=4.2.0
 RUN python3.8 -m pip install --no-cache-dir numpy cython
 RUN python3.8 -m pip install --no-cache-dir cellprofiler==$version
 
-WORKDIR /usr/local/src
+WORKDIR /work
 ENTRYPOINT ["cellprofiler"]
 
 CMD ["--run", "--run-headless", "--help"]
